@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<report id="packing_list_report"
+			string="Packing List"
+			model="my.invoice"
+			report_type="qweb-pdf"
+			file="export_documentation.packing_list_report_first"
+			name="export_documentation.packing_list_report_first" menu="True"/>
+
+		<template id="report_packing_list_view">
+     	<xpath expr="//style" position="after">
+     		<style type="text/css" >
+                    .tabla {
+                        cellpadding: 10;
+                        border: 1px solid black;
+                    }
+            </style>
+        </xpath>
+  		</template>
+
+   		<record id="paperformat_report_packing_list" model="report.paperformat">
+        	<field name="name">Packing List</field>
+           	<field name="orientation">Landscape</field>
+           	<field name="margin_bottom">10</field>
+            <field name="margin_top">10</field>
+			<field name="margin_left">5</field>
+			<field name="margin_right">5</field>
+    		</record>
+        <record id="packing_list_report" model="ir.actions.report">
+        	<field name="paperformat_id" ref="paperformat_report_packing_list"/>
+    	</record>
+
+
+	</data>
+</openerp>

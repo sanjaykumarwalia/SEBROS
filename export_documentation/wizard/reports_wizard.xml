@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+            	 <!-- wizard Form View -->
+		<record id ="reports_wizard_form_view" model="ir.ui.view">
+			<field name="name">Wizard</field>
+			<field name="model">reports.wizard</field>
+			<field name="arch" type="xml">
+			<form string="wizard form">
+				<footer>
+				<button name="trans_report" string="Transaction Report" type="object" class="oe_highlight"/>
+				</footer>
+                <group col="4">
+                <field name="from_date" required="0"/>
+                <field name="to_date" required="0"/>
+                <field name="transaction_type" required="1"/>
+                <field name="partner_id" options="{'no_create_edit':True,'no_create':True}"/>
+                </group>
+
+				</form>
+				</field>
+				</record>
+
+        <record id="action_reports_wizard" model="ir.actions.act_window">
+            <field name="name">Transaction Report</field>
+            <field name="res_model">reports.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="reports_wizard_form_view"/>
+           <field name="target">new</field>
+           <field name="context">{'model': 'reports.wizard'}</field>
+        </record>
+
+
+
+<!--        For STock Report-->
+        <record id ="stock_report_form_view" model="ir.ui.view">
+			<field name="name">Wizard</field>
+			<field name="model">stock.report</field>
+			<field name="arch" type="xml">
+			<form string="wizard form">
+				<footer>
+				<button name="stock_report" string="Stock Report" type="object" class="oe_highlight"/>
+				</footer>
+                <group col="4">
+                <field name="stock_type" required="1"/>
+                </group>
+
+				</form>
+				</field>
+				</record>
+
+        <record id="action_stock_report" model="ir.actions.act_window">
+            <field name="name">Stock Report</field>
+            <field name="res_model">stock.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="stock_report_form_view"/>
+           <field name="target">new</field>
+           <field name="context">{'model': 'stock.report'}</field>
+        </record>
+
+
+        <record id ="outstanding_form_view" model="ir.ui.view">
+			<field name="name">Wizard</field>
+			<field name="model">outstanding</field>
+			<field name="arch" type="xml">
+			<form string="wizard form">
+				<footer>
+				<button name="outstanding" string="Outstanding Report" type="object" class="oe_highlight"/>
+				</footer>
+                <group col="4">
+                <field name="from_date" required="0"/>
+                <field name="to_date" required="0"/>
+                <field name="transaction_type" required="1"/>
+                <field name="partner_id" options="{'no_create_edit':True,'no_create':True}"/>
+                </group>
+
+				</form>
+				</field>
+				</record>
+
+        <record id="action_outstanding" model="ir.actions.act_window">
+            <field name="name">Outstanding Report</field>
+            <field name="res_model">outstanding</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="outstanding_form_view"/>
+           <field name="target">new</field>
+           <field name="context">{'model': 'outstanding'}</field>
+        </record>
+
+	<menuitem id="menu_mis2" name="Report Types" parent="stock_transaction_menu1" sequence="10"/>
+    <menuitem id="menu_mis3" name="Transaction Reports" parent="menu_mis2" action="action_reports_wizard"/>
+    <menuitem id="menu_mis4" name="Stock Reports" parent="menu_mis2" action="action_stock_report"/>
+    <menuitem id="menu_mis5" name="Outstanding Reports" parent="menu_mis2" action="action_outstanding"/>
+
+</data>
+</odoo>

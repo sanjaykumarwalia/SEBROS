@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+			<record id ="myinvoice_form_view1" model="ir.ui.view">
+			<field name="name">My Invoice</field>
+			<field name="model">my.invoice</field>
+			<field name="arch" type="xml">
+			<form string="My Invoice form" class="o_sale_order" attrs="{'delete': [('state','=','draft')]}">
+            <header>
+
+                    <button name="action_confirm" id="action_confirm"
+                        string="Confirm" class="btn-primary" type="object" states="draft"/>
+                    <button name="action_done" id="action_done"
+                        string="Lock" class="btn-primary" type="object" states="confirm"/>
+                    <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+
+                <sheet>
+					<div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+					<group>
+                        <group>
+                            <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options="{'no_create_edit':false,'no_create':false}"/>
+                            <field name="ship_to" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options="{'no_create_edit':false,'no_create':false}"/>
+                            <field name="sale_id" attrs="{'readonly': [('state','not in', 'draft')]}" options="{'no_create_edit':false,'no_create':false}"/>
+                            <field name="party_po" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'invisible': [('state', 'in', ['sale', 'done'])]}"/>
+                            <field name="payment_term_id" options="{'no_create': False}" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                            <field name="transaction_type" readonly="0" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                            <field name="delivery_date" attrs="{'required':[('state','in','confirm')],'readonly': [('state','in', 'done')],'invisible': [('state','in', 'draft')]}"/>
+                        </group>
+                    </group>
+
+
+				<notebook>
+						<page string="Invoice Line">
+                            <field name="order_line" attrs="{'readonly': [('state','not in', 'draft')]}">
+                                <tree string="Invoice line" editable="bottom">
+                                    <field name="product_id" required="1" options="{'no_create_edit':false,'no_create':false}"/>
+                                    <field name="part_id"/>
+                                    <field name="pallets"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="unit_price"/>
+                                    <field name="tax_id" widget="many2many_tags"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+
+                            </field>
+                            <group align="left" colspan="2">
+                                <field name="nt_weight" nolabel="0" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <field name="gr_weight" nolabel="0" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
+
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="amount_untaxed"/>
+                                <field name="tax_value"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                            <label for="total_amount"/>
+                                </div>
+                                <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <field name="payment" readonly="1" attrs="{'invisible': [('transaction_type', '=', 'Warehouse')]}" nolabel="0" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <field name="due_amount" readonly="1" attrs="{'invisible': [('transaction_type', '=', 'Warehouse')]}" nolabel="0" class="oe_subtotal_footer_separator" widget="monetary"/>
+
+					        </group>
+
+						</page>
+                    <page string="Other Info">
+                        <group col="4">
+                            <field name="delivery_term"/>
+                            <field name="tariff_code"/>
+                            <field name="ship_from" options="{'no_create_edit':false,'no_create':false}" />
+                            <field name="transportation_mode"/>
+                            <field name="remark"/>
+                            <field name="productTariffDesc"/>
+                            <field name="attention"/>
+                            <field name="no_of_palletsNew"/>
+                        </group>
+                    </page>
+                    <page string="Packing List Line">
+                            <field name="packing_list_line" attrs="{'readonly': [('state','not in', 'draft')]}">
+                                <tree string="Packing List Line" editable="bottom">
+                                    <field name="lot_no" />
+                                    <field name="description"/>
+                                    <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="part_id" options="{'no_create_edit':True,'no_create':True}"/>
+
+                                    <field name="qty"/>
+                                    <field name="uom_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="net_weight"/>
+                                    <field name="pallet_weight"/>
+                                    <field name="gross_weight"/>
+                                </tree>
+                            </field>
+                    </page>
+				</notebook>
+
+				</sheet>
+
+                <div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                        <field name="message_ids" widget="mail_thread"/>
+	                    </div>
+			</form>
+
+			</field>
+           </record>
+
+           <record id="my_invoice_tree_view1" model="ir.ui.view">
+           <field name="name">My Invoice</field>
+		   <field name="model">my.invoice</field>
+		   <field name="arch" type="xml">
+		   <tree string="My Invoice Tree">
+                        <field name="id"/>
+                        <field name="name"/>
+						<field name="partner_id"/>
+			   			<field name="date"/>
+						 <field name="state"/>
+                        <field name="total_amount"/>
+                        <field name="payment"/>
+                        <field name="due_amount"/>
+                        <field name="due_amount1"/>
+
+
+
+           </tree>
+           </field>
+           </record>
+           <!-- Sale  Action -->
+           <record id="action_my_invoice" model="ir.actions.act_window">
+           <field name="name">Invoice</field>
+           <field name="res_model">my.invoice</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_model">tree,form</field>
+           <field name="view_id" ref="my_invoice_tree_view1"/>
+           </record>
+
+           <!-- My Invoice  Menu -->
+            <menuitem id="my_invoice_menu2" name="Export Invoice" parent="my_sale_menu1"/>
+           	<menuitem id="my_invoice_menu3" name="Export Invoice" parent="my_invoice_menu2" action="action_my_invoice"/>
+
+
+
+
+</data>
+	</openerp>

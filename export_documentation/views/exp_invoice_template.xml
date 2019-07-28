@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="export_invoice_report_first">
+            <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="header"></div>
+                <div class="footer"></div>
+            <t t-call="web.external_layout">
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+
+                <div class="page">
+                    <style>
+                        #customers {
+                          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                          border-collapse: collapse;
+                          width: 100%;
+                        }
+
+                        #customers td, #customers th {
+                          border: 1px solid black;
+                          padding: 6px;
+                        }
+
+                        #customers th {
+                          padding-top: 8px;
+                          padding-bottom: 8px;
+                          text-align: left;
+                          background-color: #4CAF50;
+                          color: white;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <!--<div class="col-xs-12">-->
+                            <table id="customers">
+                                <tr>
+                                    <td colspan="6">
+                                        <style>
+                                        .column {
+                                          float: left;
+                                          width: 50%;
+                                          padding: 5px;
+                                        }
+                                        </style>
+                                        <p style="line-height:0.8;text-align:center; font-size:24px;border-bottom:1px solid black"><b>EXPORT INVOICE</b></p>
+                                        <div class="right" style="text-align:center;">
+                                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="height: 80px;" alt="Logo"/>
+                                            <p style="line-height:0.8;text-align:center; font-size:24px;"><b><t t-esc="doc.user_id.company_id.name"/></b></p>
+<!--                                            <p style = "font-size:24;font-family: Arial; line-height:0.8;"><b><t t-esc="doc.user_id.company_id.name"/></b></p>-->
+                                            <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.user_id.company_id.street"/></p>
+                                            <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.user_id.company_id.street2"/> , <t t-esc="doc.user_id.company_id.city"/> ,
+                                            <t t-esc="doc.user_id.company_id.state_id.name"/> (<t t-esc="doc.user_id.company_id.country_id.name"/>), <t t-esc="doc.user_id.company_id.zip"/></p>
+                                            <p style = "font-size:12;font-family: Arial; line-height:0.5;">Tel : <t t-esc="doc.user_id.company_id.phone"/>,Email : <t t-esc="doc.user_id.company_id.email"/></p>
+<!--                                            <p style = "font-size:12;font-family: Arial; line-height:0.5;">Email : <t t-esc="doc.user_id.company_id.email"/></p>-->
+                                            <p style = "font-size:12;font-family: Arial; line-height:0.5;">GSTIN : <t t-esc="doc.user_id.company_id.vat"/></p>
+                                       </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" rowspan="2"><b> Consignee : </b>
+                                    <p style = "line-height:12pt; font-size:12;font-family: Arial;"><b><t t-esc="doc.partner_id.name"/></b></p>
+                                    <p style = "line-height:12pt; font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.partner_id.street"/></p>
+                                    <p style = "line-height:12pt; font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.partner_id.street2"/> , <t t-esc="doc.partner_id.city"/> ,<t t-esc="doc.partner_id.state_id.name"/></p>
+                                    <p style = "line-height:12pt; font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.partner_id.zip"/>,<t t-esc="doc.partner_id.country_id.name"/></p>
+                                    <t t-if="doc.attention">
+                                    <b>Kind Attention : <t t-esc="doc.attention"/></b>
+                                    </t>
+                                    </td>
+                                    <!--<td colspan="4"><span t-field="doc.partner_id"/></td>-->
+                                    <td colspan="3"><b> Invoice No : <span t-field="doc.name"/> | Date : <span t-esc="doc.date" t-options='{"widget": "date"}'/></b></td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3"><b>Supplier Code : </b><t t-esc="doc.partner_id.supp_code"/>
+                                    <br/><t t-esc="doc.remark"/><br/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><b>Order No.: <span t-field="doc.sale_id.so"/> | Date : <span t-esc="doc.sale_id.date" t-options='{"widget": "date"}'/></b></td>
+                                    <!--<td colspan="4"><span t-field="doc.part_no"/></td>-->
+                                    <td colspan="3" rowspan="3"><b>Buyer/Delivery Address : </b>
+                                    <p style = "font-size:12;font-family: Arial;"><b><t t-esc="doc.ship_to.name"/></b></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.ship_to.street"/></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.75;"><t t-esc="doc.ship_to.street2"/> , <t t-esc="doc.ship_to.city"/> ,
+                                            <t t-esc="doc.ship_to.state_id.name"/></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.ship_to.zip"/>, <t t-esc="doc.ship_to.country_id.name"/></p>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3"><b>Tariff Code : <t t-esc="doc.tariff_code"/></b></td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><b>Shipped From : <t t-esc="doc.ship_from.name"/></b>
+                                    <br/><b>To : <t t-esc="doc.partner_id.country_id.name"/></b><br/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4"><b>Payment Terms: <t t-esc="doc.payment_term_id.name"/></b>
+                                    <br/><t t-esc="doc.transportation_mode"/><br/>
+                                    <b>Delivery Terms: </b><t t-esc="doc.delivery_term"/>
+                                    </td>
+                                     <td colspan="2"><b>Marks &amp; Numbers:</b><br/><t t-esc="doc.partner_id.name"/>
+                                     <br/><t t-esc="doc.user_id.company_id.name"/> <br/>Made In India
+                                     </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="1"><b>Sr.No.</b></td>
+                                    <td colspan="1"><b>Description of Goods </b></td>
+
+                                    <td colspan="1"><b>Quantity</b></td>
+                                    <td colspan="1"><b>UOM</b></td>
+                                    <td colspan="1"><b>Unit Price(<t t-esc="doc.partner_id.currency_id.name"/>)</b></td>
+                                    <td colspan="1"><b>Total Amount</b></td>
+                                </tr>
+                                <t t-set="i" t-value="1"/>
+    			                <t t-foreach="doc.order_line" t-as="l">
+                                <tr>
+                                    <td colspan="1" rowspan="2" style="text-align:center; font-size:14px; " height="60"><span t-esc="i" /></td>
+                                    <t t-set="i" t-value="i+1"/>
+<!--                                    <span t-field="doc.sale_id.productTariffDesc"/>-->
+                                    <t t-if="l.product_id.part_id"><td colspan="1" rowspan="2" style=" width: 30%; text-align:left; font-size:14px; padding-left: 5px;"><span t-field="doc.productTariffDesc"/><br/><span t-field="l.product_id.name"/><br/> Part # <span t-field="l.product_id.part_id.name"/></td></t>
+                                    <t t-else =""><td colspan="1" rowspan="2" style=" width: 30%; text-align:left; font-size:14px; padding-left: 5px;"> <br/> Part #  <span  t-field="l.product_id.name"/></td></t>
+
+                                    <td colspan="1" rowspan="2" style="text-align:right; font-size:14px; padding-right:5px;"><span t-esc="'%.2f'%(l.qty)"/></td>
+                                    <td colspan="1" rowspan="2" style="text-align:center; font-size:14px;"><span t-field="l.uom_id"/></td>
+                                    <td colspan="1" rowspan="2" style="text-align:right; font-size:14px;padding-right:5px;"><span t-field="l.unit_price"/></td>
+                                    <td colspan="1" rowspan="2" style="text-align:right; font-size:14px;padding-right:5px;"><span t-esc="'%.2f'%(l.qty * l.unit_price)"/></td>
+
+                                </tr>
+                                    <tr></tr>
+
+    				            </t>
+                                <tr>
+                                        <td colspan="5" style="text-align:left;"><b>Total</b></td>
+                                        <td colspan="1" style="text-align:right;"><b><span t-esc="doc.partner_id.currency_id.symbol"/> <span t-esc="'%.2f'%(doc.total_amount)"/></b></td>
+                                    </tr>
+                                <tr>
+                                    <td colspan="2" rowspan="2"><b>No. Of Pallets : <span t-esc="doc.no_of_palletsNew"/></b></td>
+                                    <td colspan="3" rowspan="2"><b>NT. Kgs. : <span t-field="doc.nt_weight"/> </b><br/><br/><b>GR.Kgs. : <span t-field="doc.gr_weight"/></b></td>
+                                    <td colspan="1" rowspan="2"><b>Dimention of the crate</b></td>
+                                </tr>
+                                <tr>
+                                </tr>
+
+
+                                <tr>
+                                    <td colspan="2" rowspan="2">
+                                    <t t-foreach="doc.order_line" t-as="v">
+                                    <t t-if="v.product_id.license_no">
+                                    <b>Advance License No. : <span t-esc="v.product_id.license_no"/></b>
+                                    </t>
+                                    </t>
+                                    </td>
+                                    <td colspan="4" rowspan="2"><br/>
+                                        <table id="customer" width="100%">
+                                            <td>
+                                                <center><b>For <t t-esc="doc.user_id.company_id.name"/><br/><br/><br/><br/>SIGNATURE</b></center>
+                                            </td>
+                                        </table>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                            </table>
+                    </div>
+                 </div>
+            </t>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>

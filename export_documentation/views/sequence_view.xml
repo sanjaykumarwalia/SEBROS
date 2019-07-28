@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		 <!-- Sequance generate -->
+
+        <record id="seq_sale_code" model="ir.sequence">
+            <field name="name">Sale</field>
+            <field name="code">sale_code</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+         <record id="seq_invoice_code" model="ir.sequence">
+            <field name="name">Invoice</field>
+            <field name="code">invoice_code</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_stock_transaction_in" model="ir.sequence">
+            <field name="name">Stock Transaction</field>
+            <field name="code">stock_transaction_in</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_stock_transaction_out" model="ir.sequence">
+            <field name="name">Stock Transaction</field>
+            <field name="code">stock_transaction_out</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+
+        <record id="seq_pod_code" model="ir.sequence">
+            <field name="name">POD</field>
+            <field name="code">pod_code</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_pod_transaction_in" model="ir.sequence">
+            <field name="name">POD Transaction</field>
+            <field name="code">pod_transaction_in</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_pod_transaction_out" model="ir.sequence">
+            <field name="name">POD Transaction</field>
+            <field name="code">pod_transaction_out</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_pay_code" model="ir.sequence">
+            <field name="name">Invoice Payment</field>
+            <field name="code">invoice_payment</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+
+
+
+	</data>
+</odoo>

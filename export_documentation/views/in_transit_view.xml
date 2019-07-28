@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<!-- In transit Form View -->
+			<record id ="in_transit_form_view1" model="ir.ui.view">
+			<field name="name">In transit</field>
+			<field name="model">in.transit</field>
+			<field name="arch" type="xml">
+			<form string="In transit form" edit="0" create="0" delete="0">
+                <sheet>
+					<group>
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+
+                        </group>
+                    </group>
+				</sheet>
+
+                <!--<div class="oe_chatter">-->
+							<!--<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>-->
+	                        <!--<field name="message_ids" widget="mail_thread"/>-->
+	                    <!--</div>-->
+			</form>
+			</field>
+           </record>
+
+           <record id="in_transit_tree_view1" model="ir.ui.view">
+           <field name="name">In transit</field>
+		   <field name="model">in.transit</field>
+		   <field name="arch" type="xml">
+		   <tree string="In transit Tree" edit="0" create="0" delete="0">
+                        <field name="product_id" required="1"/>
+                        <field name="part_id"/>
+                       <field name="qty"/>
+                       <field name="uom_id"/>
+
+
+           </tree>
+           </field>
+           </record>
+           <!--    Action -->
+           <record id="action_in_transit" model="ir.actions.act_window">
+           <field name="name">In transit</field>
+           <field name="res_model">in.transit</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_model">tree,form</field>
+           <field name="view_id" ref="in_transit_tree_view1"/>
+           </record>
+
+           <!-- In transit  Menu -->
+           	<menuitem id="in_transit_menu3" name="In Transit" parent="my_stock_menu2" action="action_in_transit"/>
+
+
+
+
+</data>
+	</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<report id="export_invoice_report"
+			string="Export Invoice"
+			model="my.invoice"
+			report_type="qweb-pdf"
+			file="export_documentation.export_invoice_report_first"
+			name="export_documentation.export_invoice_report_first" menu="True"/>
+
+		<template id="report_export_invoice_view">
+     	<xpath expr="//style" position="after">
+     		<style type="text/css" >
+                    .table {
+                        cellpadding: 10;
+                        border: 1px solid black;
+                    }
+            </style>
+        </xpath>
+  		</template>
+
+   		<record id="paperformat_report_export_invoice" model="report.paperformat">
+        	<field name="name">Export Invoice</field>
+           	<field name="orientation">Portrait</field>
+           	<field name="margin_bottom">10</field>
+            <field name="margin_top">10</field>
+			<field name="margin_left">5</field>
+			<field name="margin_right">5</field>
+    		</record>
+        <record id="export_invoice_report" model="ir.actions.report">
+        	<field name="paperformat_id" ref="paperformat_report_export_invoice"/>
+    	</record>
+
+
+	</data>
+</openerp>

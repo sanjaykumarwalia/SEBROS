@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="packing_list_report_first">
+            <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="header"></div>
+                <div class="footer"></div>
+            <t t-call="web.external_layout">
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+
+                <div class="page">
+                    <style>
+                        #customers {
+                          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                          border-collapse: collapse;
+                          width: 100%;
+                        }
+
+                        #customers td, #customers th {
+                          border: 1px solid black;
+                          padding: 8px;
+                        }
+
+                        #customers th {
+                          padding-top: 12px;
+                          padding-bottom: 12px;
+                          text-align: left;
+                          background-color: #4CAF50;
+                          color: white;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <!--<div class="col-xs-12">-->
+                            <table id="customers">
+                                <tr>
+                                    <td colspan="7">
+                                        <p style="font-size:20px;"><b>PACKING LIST <span style="margin-left:48em" t-esc="doc.date" t-options='{"widget": "date"}'/></b></p>
+<!--                                        <p style="font-size:20px;"><b>PACKING LIST <span style="margin-left:48em" t-esc="date.strptime(doc.date, '%d-%b-%Y')"/></b></p>-->
+<!--                                        <p style="font-size:20px;"><b>PACKING LIST <span style="margin-left:48em" t-esc="doc.date" t-field-options='{"format": "%B %d,%Y"}'/></b></p>-->
+<!--
+<p style="font-size:20px;"><b>PACKING LIST <span style="margin-left:48em" t-esc="doc.date" t-field-options='{"format": "dd/mmm/yyyy"}'/></b></p>-->
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4" style="margin-left:22em">
+                                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="height: 60px;" alt="Logo"/>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><b><t t-esc="doc.user_id.company_id.name"/></b></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.user_id.company_id.street"/></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.user_id.company_id.street2"/> , <t t-esc="doc.user_id.company_id.city"/> ,
+                                        <t t-esc="doc.user_id.company_id.state_id.name"/> , <t t-esc="doc.user_id.company_id.zip"/></p>
+                                    </td>
+                                    <td colspan="4"><b> BUYERS </b>
+                                    <p style = "font-size:12;font-family: Arial;"><b><t t-esc="doc.partner_id.name"/></b></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.partner_id.street"/></p>
+                                        <p style = "font-size:12;font-family: Arial; line-height:0.5;"><t t-esc="doc.partner_id.street2"/> , <t t-esc="doc.partner_id.city"/> ,
+                                            <t t-esc="doc.partner_id.state_id.name"/> , <t t-esc="doc.partner_id.zip"/></p>
+                                    </td>
+                                    <!--<td colspan="4"><span t-field="doc.partner_id"/></td>-->
+<!--                                    <t t-foreach="doc.order_line" t-as="z">-->
+<!--                                    <td colspan="3"><b>Description Of Goods :</b><t t-esc="z.name"/></td>-->
+<!--                                    </t>-->
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="1" style="text-align:left;"><b>Lot No.</b></td>
+                                    <td colspan="1" style="text-align:left;"><b>Diamensions</b></td>
+                                    <td colspan="1" style="text-align:center;"><b>Net Wt.</b></td>
+                                    <td colspan="1" style="text-align:center;"><b>Gr. Wt.</b></td>
+                                    <td colspan="1" style="text-align:center;"><b>Part No.</b></td>
+                                    <td colspan="1" style="text-align:center;"><b>Product</b></td>
+                                    <td colspan="1" style="text-align:center;"><b>Quantity</b></td>
+                                </tr>
+    			                <t t-foreach="doc.packing_list_line" t-as="l">
+
+                                <tr>
+
+                                    <td colspan="1" style="text-align:left;"><t t-esc="l.lot_no"/></td>
+                                    <td colspan="1" style="text-align:right;"><t t-esc="l.description"/></td>
+                                    <td colspan="1" style="text-align:right;"><t t-esc="'%.2f'%l.net_weight"/></td>
+                                    <td colspan="1" style="text-align:right;"><t t-esc="'%.2f'%l.gross_weight"/></td>
+                                    <td colspan="1" style="text-align:right;"><t t-esc="l.part_id.name"/></td>
+                                    <td colspan="1" style="text-align:left;"><t t-esc="l.product_id.name"/></td>
+                                    <td colspan="1" style="text-align:right;"><t t-esc="'%.2f'%l.qty"/></td>
+
+                                </tr>
+
+    				            </t>
+                                <tr>
+                                    <td colspan="1" style="text-align:left;"><b>Total</b></td>
+                                    <td colspan="1" style="text-align:right;"></td>
+                                    <td colspan="1" style="text-align:right;"><b><t t-esc="'%.2f'%doc.nt_weight"/></b></td>
+                                    <td colspan="1" style="text-align:right;"><b><t t-esc="'%.2f'%doc.gr_weight"/></b></td>
+                                    <td colspan="1" style="text-align:right;"></td>
+                                    <td colspan="1" style="text-align:right;"></td>
+                                    <td colspan="1" style="text-align:right;"><b><t t-esc="doc.total_qty"/></b></td>
+                                </tr>
+
+
+
+                            </table>
+                    </div>
+                    <table style="width:100%; border:None">
+                        <tr>
+                            <td colspan="9"><br/></td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="4"><b>Marks &amp; Numbers</b>
+                                <p style = "font-size:12;font-family: Arial; line-height:1;"><t t-esc="doc.user_id.company_id.name"/></p>
+                                <p style = "line-height:1;"><b>Made In India</b></p>
+<!--                                <p style = "line-height:1;"><b>Pallet No.</b> 1 To <t t-esc="doc.no_of_pallets"/></p>-->
+                                <p style = "line-height:1;"><b>Pallet No.</b><t t-esc="doc.no_of_palletsNew"/></p>
+                            </td>
+                            <td colspan="4" ><b style ="line-height:1.5;">Invoice No. : <t t-esc="doc.name"/> | Date : <t t-esc="doc.date" t-options='{"widget": "date"}'/></b>
+                                <p style = "line-height:1;"><b>TOTAL NT.WEIGHT :</b> <t t-esc="'%.2f'%doc.nt_weight"/> <t t-esc="doc.order_line[0].product_id.weight_uom_id.name"/></p>
+                                <p style = "line-height:1;"><b>TOTAL GR.WEIGHT :</b> <t t-esc="'%.2f'%doc.gr_weight"/> <t t-esc="doc.order_line[0].product_id.weight_uom_id.name"/></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8"><center><br/><br/><br/><br/><b>Signature &amp; Date </b></center></td>
+
+                        </tr>
+
+
+                    </table>
+                 </div>
+            </t>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>

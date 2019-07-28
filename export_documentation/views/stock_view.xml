@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<!-- My Stock Form View -->
+			<record id ="my_stock_form_view1" model="ir.ui.view">
+			<field name="name">My Stock</field>
+			<field name="model">my.stock</field>
+			<field name="arch" type="xml">
+			<form string="My Stock form" edit="0" create="0" delete="0">
+                <sheet>
+					<group>
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+
+                        </group>
+                    </group>
+				</sheet>
+
+                <!--<div class="oe_chatter">-->
+							<!--<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>-->
+	                        <!--<field name="message_ids" widget="mail_thread"/>-->
+	                    <!--</div>-->
+			</form>
+			</field>
+           </record>
+
+           <record id="my_stock_tree_view1" model="ir.ui.view">
+           <field name="name">My Stock</field>
+		   <field name="model">my.stock</field>
+		   <field name="arch" type="xml">
+		   <tree string="My Stock Tree" edit="0" create="0" delete="0">
+                        <field name="product_id"/>
+                        <field name="part_id"/>
+                       <field name="qty"/>
+                       <field name="uom_id"/>
+
+
+           </tree>
+           </field>
+           </record>
+           <!--    Action -->
+           <record id="action_my_stock" model="ir.actions.act_window">
+           <field name="name">My Stock</field>
+           <field name="res_model">my.stock</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_model">tree,form</field>
+           <field name="view_id" ref="my_stock_tree_view1"/>
+           </record>
+
+           <!-- My Stock  Menu -->
+            <menuitem id="stock_transaction_menu1" name="Inventory" />
+            <menuitem id="my_stock_menu2" name="Stock" parent="stock_transaction_menu1"/>
+           	<menuitem id="my_stock_menu3" name="Current Stock" parent="my_stock_menu2" action="action_my_stock"/>
+
+
+
+
+</data>
+	</odoo>

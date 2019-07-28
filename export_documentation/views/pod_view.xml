@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+			<record id ="my_pod_form_view1" model="ir.ui.view">
+			<field name="name">My Pod</field>
+			<field name="model">my.pod</field>
+			<field name="arch" type="xml">
+			<form string="My pod form" class="o_sale_order" attrs="{'delete': [('state','=','draft')]}">
+            <header>
+
+                    <button name="action_confirm" id="action_confirm"
+                        string="Confirm" class="btn-primary" type="object" states="draft"/>
+                    <button name="action_done" id="action_done"
+                        string="Lock" class="btn-primary" type="object" states="paid"/>
+                    <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,paid,done"/>
+                </header>
+
+                <sheet>
+					<div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+					<group>
+                        <group>
+                            <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="reference" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="payment_term_id" options="{'no_create': True}" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                        </group>
+                    </group>
+
+
+				<notebook>
+						<page string="POD Line">
+                            <field name="order_line" attrs="{'readonly': [('state','not in', 'draft')]}">
+                                <tree string="pod line" editable="bottom">
+                                    <field name="product_id" required="1" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="part_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="date"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                    <field name="unit_price"/>
+                                    <field name="price_subtotal"/>
+                                </tree>
+
+                            </field>
+
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="amount_untaxed"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                            <label for="total_amount"/>
+                                </div>
+                                <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                            <label for="payment"/>
+                                </div>
+
+                                <field name="payment" readonly="1" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                            <label for="amount_due"/>
+                                </div>
+                                <field name="amount_due" readonly="1" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+
+					        </group>
+
+						</page>
+				</notebook>
+
+				</sheet>
+
+                <div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+	                        <field name="message_ids" widget="mail_thread"/>
+	                    </div>
+			</form>
+
+			</field>
+           </record>
+
+           <record id="my_pod_tree_view1" model="ir.ui.view">
+           <field name="name">My pod</field>
+		   <field name="model">my.pod</field>
+		   <field name="arch" type="xml">
+		   <tree string="My pod Tree">
+                        <field name="name"/>
+						<field name="partner_id"/>
+			   			<field name="date"/>
+                        <field name="total_amount"/>
+                        <field name="amount_due"/>
+                        <field name="state"/>
+
+           </tree>
+           </field>
+           </record>
+           <!-- Sale  Action -->
+           <record id="action_my_pod" model="ir.actions.act_window">
+           <field name="name">POD</field>
+           <field name="res_model">my.pod</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_model">tree,form</field>
+           <field name="view_id" ref="my_pod_tree_view1"/>
+           </record>
+
+           <!-- My pod  Menu -->
+            <menuitem id="my_pod_menu2" name="POD" parent="my_sale_menu1"/>
+           	<menuitem id="my_pod_menu3" name="POD" parent="my_pod_menu2" action="action_my_pod"/>
+
+
+
+
+</data>
+	</odoo>
